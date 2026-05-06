@@ -28,6 +28,6 @@ export const getCoinHistory = async (coinId) => {
       }
     }
   )
-
+  console.log(response.data);
   return response.data.prices;
 }
