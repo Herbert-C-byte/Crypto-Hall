@@ -6,6 +6,7 @@ import PriceChart from './components/PriceChart'
 function App() {
   const [coins, setCoins] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [selectedCoin, setSelectedCoin] = useState("bitcoin");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +19,7 @@ function App() {
 
   useEffect(() => {
     const fetchChart = async () => {
-      const rawData = await getCoinHistory("bitcoin");
+      const rawData = await getCoinHistory(selectedCoin);
 
       const formatted = rawData.map(item => ({
         time: new Date(item[0]).getHours() + ":00",
@@ -29,14 +30,14 @@ function App() {
     }
 
     fetchChart();
-  }, [])
+  }, [selectedCoin])
   
   return (
     <>
       <h1>Crypto Board</h1>
 
       {coins.map((coin) => (
-        <CryptoCard key={coin.id} coin={coin}/>
+        <CryptoCard key={coin.id} coin={coin} onSelect={setSelectedCoin} />
       ))}
       <PriceChart data={chartData}/>
     </>
